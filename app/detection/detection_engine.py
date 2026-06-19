@@ -15,3 +15,4 @@ def detect_brute_force(db: Session, username : str, source_ip : str):
         )
     else:
         return None
+    
