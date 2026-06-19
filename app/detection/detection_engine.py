@@ -1,22 +1,17 @@
 from datetime import datetime 
 from models.alert_model import AlertModel
-from repositories.alert_repository import save_alert
+from sqlalchemy.orm import Session
+from repositories.event_repository import count_failed_logins_by_username
 
-def generate_alert(db, 
-                   alert_type: str,
-                   username:str,
-                   source_ip:str,
-                   attempts_volume: int
-                   ):
-    alert_model = AlertModel(
-        alert_type = alert_type,
-        username = username,
-        source_ip = source_ip,
-        attempts_volume = attempts_volume,
-        created_at = datetime.utcnow()
-    )
-    saved_alert = save_alert(
-        alert_model= alert_model, db = db
-    )
-    return saved_alert
-
+def detect_brute_force(db: Session, username : str, source_ip : str):
+    failed_attempts = count_failed_logins_by_username(db, username)
+    if failed_attempts >= 5:
+        return AlertModel(
+            alert_type = "BRUTE_FORCE_ATTEMPT",
+            username = username,
+            source_ip = source_ip,
+            attempts_volume = failed_attempts,
+            created_at = datetime.utcnow()
+        )
+    else:
+        return None

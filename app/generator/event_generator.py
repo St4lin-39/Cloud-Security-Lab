@@ -14,9 +14,7 @@ def generate_event(db,
         resource = resource,
         event_timestamp = datetime.utcnow()
     )
-    if not username:
-        raise("El usuario no deberia estar vacio")
-    
+
     saved_event = save_event(
         db = db, event_model = event_model
     )

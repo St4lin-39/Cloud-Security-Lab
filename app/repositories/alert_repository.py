@@ -2,7 +2,7 @@ from sqlalchemy.orm import Session
 from entities.alert_entity import AlertTable
 from models.alert_model import AlertModel
 
-def save_alert(alert_model: AlertModel, db : Session):
+def save_alert( db : Session, alert_model: AlertModel):
     try:
         alert = AlertTable(
             alert_type = alert_model.alert_type,
