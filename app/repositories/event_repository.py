@@ -1,4 +1,3 @@
-
 from sqlalchemy.orm import Session
 from entities.event_entity import EventTable
 from models.event_model import EventModel
@@ -20,3 +19,9 @@ def save_event(event_model: EventModel, db : Session):
     except Exception:
         db.rollback()
         raise 
+
+def count_failed_logins_by_username(db: Session, username: str):
+    return(
+        db.query(EventTable).filter(EventTable.username == username).filter(EventTable.event_type == "LOGIN_FAILED").count()
+    )
+    
