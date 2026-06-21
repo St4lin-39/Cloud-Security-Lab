@@ -3,7 +3,7 @@ from entities.event_entity import EventTable
 from models.event_model import EventModel
 
 
-def save_event(event_model: EventModel, db : Session):
+def save_event(db : Session, event_model: EventModel):
     try:
         event = EventTable(
             username = event_model.username,
