@@ -1,33 +1,29 @@
-from datetime import datetime 
-from models.alert_model import AlertModel
-from sqlalchemy.orm import Session
-from repositories.event_repository import count_failed_logins_by_username, get_unique_resources_by_username
+from detection.brute_force import detect_brute_force
+from detection.resource_enumeration import detect_resource_enumeration
+from sqlalchemy import Session
 
 
-def detect_brute_force(db: Session, username : str, source_ip : str):
-    failed_attempts = count_failed_logins_by_username(db, username)
-    if failed_attempts >= 5:
-        return AlertModel(
-            alert_type = "BRUTE_FORCE_ATTEMPT",
-            username = username,
-            source_ip = source_ip,
-            attempts_volume = failed_attempts,
-            created_at = datetime.utcnow()
-        )
+def run_detection_engine(db: Session, event):
+    alerts = []
+    brute_force = detect_brute_force(
+        db=db,
+        username = event.username,
+        source_ip = event.source_ip
+    )
+    if brute_force:
+        alerts.append(brute_force)
+        return alerts
     else:
-        return None
-
-def detect_resource_enumeration(db: Session, username : str, source_ip : str):
-    resources = get_unique_resources_by_username(db, username)
-    resource_count = len(resources)
-    if resource_count >= 10:
-        return AlertModel(
-            alert_type = "RESOURCE_ENUMERATION",
-            username = username,
-            source_ip = source_ip,
-            attempts_volume = resource_count,
-            created_at = datetime.utcnow()
-
-        )
+        None
+        
+    resource_enumeration = detect_resource_enumeration(
+        db = db,
+        username = event.username,
+        source_ip = event.source_ip
+    )
+    if resource_enumeration:
+        alerts.append(resource_enumeration)
+        return alerts
     else:
-        return None
+        None
+
