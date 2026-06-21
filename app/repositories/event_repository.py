@@ -24,4 +24,13 @@ def count_failed_logins_by_username(db: Session, username: str):
     return(
         db.query(EventTable).filter(EventTable.username == username).filter(EventTable.event_type == "LOGIN_FAILED").count()
     )
+
+def get_unique_resources_by_username(db : Session, username: str):
+       
+       resources =  db.query(EventTable.resource).filter(EventTable.username == username).distinct().all()
+       return[
+            row[0]
+            for row in resources
+       ]
+    
     
