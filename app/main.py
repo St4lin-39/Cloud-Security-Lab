@@ -1,8 +1,7 @@
-from database.connection import SessionLocal
-from generator.event_generator import generate_event
-from database.connection import Base, engine
-from detection.detection_engine import detect_brute_force
+from database.connection import SessionLocal,Base, engine
 from repositories.alert_repository import save_alert
+from generator.event_generator import generate_event
+from detection.detection_engine import run_detection_engine
 
 
 def main():
@@ -21,15 +20,16 @@ def main():
 
         print(f"Evento guardado correctamente: {event.id}")
 
-        alert = detect_brute_force(
-            db, event.username, event.ip_address
+        alerts = run_detection_engine(
+            db, event
         )
-        if alert:
-            saved_alert = save_alert(
-                db = db,
-                alert_model = alert
-            )
-            print(f"Alerta generada: {saved_alert.alert_type}")
+        if alerts:
+            for alert in alerts:
+                saved_alert = save_alert(
+                    db = db,
+                    alert_model = alert
+                )
+                print(f"Alerta generada: {saved_alert.alert_type}")
         else:
             print("No se detecto actividad sospechosa")
 
