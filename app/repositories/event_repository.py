@@ -26,11 +26,15 @@ def count_failed_logins_by_username(db: Session, username: str):
     )
 
 def get_unique_resources_by_username(db : Session, username: str):
-       
        resources =  db.query(EventTable.resource).filter(EventTable.username == username).distinct().all()
        return[
             row[0]
             for row in resources
        ]
     
-    
+def get_unique_usernames_by_ip(db: Session, ip_address : str):
+     usernames = db.query(EventTable.username).filter(EventTable.ip_address == ip_address).filter(EventTable.event_type == "LOGIN_FAILED").distinct().all()
+     return[
+          row[0]
+          for row in usernames
+     ]
