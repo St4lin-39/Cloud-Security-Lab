@@ -1,0 +1,17 @@
+from repositories.event_repository import get_unique_usernames_by_ip
+from models.alert_model import AlertModel
+from sqlalchemy.orm import Session
+from datetime import datetime
+
+def detect_credential_stuffing(db : Session, username : str, source_ip : str):
+    usernames= get_unique_usernames_by_ip (db, source_ip)
+    username_count= len(usernames)
+    if username_count >= 5:
+        return AlertModel(
+            alert_type = "CREDENTIAL_STUFFING",
+            username = username,
+            source_ip = source_ip,
+            attempts_volume = username_count,
+            created_at = datetime.utcnow()
+        )
+    return None
