@@ -1,7 +1,8 @@
 from sqlalchemy.orm import Session
 from entities.event_entity import EventTable
 from models.event_model import EventModel
-
+from datetime import datetime, timedelta
+from config.detection_rules import BRUTE_FORCE_INTERVAL_MINUTES
 
 def save_event(db : Session, event_model: EventModel):
     try:
@@ -38,4 +39,10 @@ def get_unique_usernames_by_ip(db: Session, ip_address : str):
           row[0]
           for row in usernames
      ]
+
+def count_failed_login_by_username_since(db : Session, username : str):
+     start_time = datetime.utcnow() - timedelta(minutes = BRUTE_FORCE_INTERVAL_MINUTES)
+     return(
+     db.query(EventTable).filter(EventTable.username == username).filter(EventTable.event_type == "LOGIN_FAILED").filter(EventTable.event_timestamp >= start_time).count()
+     )
 
