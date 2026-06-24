@@ -38,3 +38,4 @@ def get_unique_usernames_by_ip(db: Session, ip_address : str):
           row[0]
           for row in usernames
      ]
+
