@@ -2,7 +2,7 @@ from sqlalchemy.orm import Session
 
 from generator.event_generator import generate_event
 from detection.detection_engine import run_detection_engine
-from repositories.alert_repository import save_alert
+from services.alert_manager import process_alert
 
 def run_brute_force_attack(db : Session, username : str, ip_address : str, attempts : int):
     generated_events = []
@@ -22,10 +22,11 @@ def run_brute_force_attack(db : Session, username : str, ip_address : str, attem
             db = db, event = event
         )
         for alert in alerts:
-            saved_alert = save_alert(
+            saved_alert = process_alert(
                 db = db, alert_model = alert
             )
-            generated_alerts.append(saved_alert)
+            if saved_alert:
+                generated_alerts.append(saved_alert)
     return generated_events, generated_alerts  
 
 def run_resource_enumeration_attack(db: Session, username : str, ip_address : str, resources : list[str]):
@@ -46,11 +47,12 @@ def run_resource_enumeration_attack(db: Session, username : str, ip_address : st
             event = event
         )
         for alert in alerts:
-            saved_alert = save_alert(
+            saved_alert = process_alert(
                 db = db,
                 alert_model = alert
             )
-            generated_alerts.append(saved_alert)
+            if saved_alert:
+                generated_alerts.append(saved_alert)
     return generated_events, generated_alerts
 
 def run_credential_stuffing_attack(db : Session, username : list[str], ip_address : str):
@@ -71,10 +73,11 @@ def run_credential_stuffing_attack(db : Session, username : list[str], ip_addres
             event = event
         )
         for alert in alerts:
-            saved_alerts = save_alert(
+            saved_alerts = process_alert(
                 db = db,
                 alert_model = alert
             )
-            generated_alerts.append(saved_alerts)
+            if saved_alerts:
+                generated_alerts.append(saved_alerts)
     return generated_events, generated_alerts
 

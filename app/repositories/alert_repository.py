@@ -1,7 +1,8 @@
 from sqlalchemy.orm import Session
 from entities.alert_entity import AlertTable
 from models.alert_model import AlertModel
-
+from datetime import datetime, timedelta
+from config.detection_rules import ALERT_COOLDOWN_MINUTES
 def save_alert( db : Session, alert_model: AlertModel):
     try:
         alert = AlertTable(
@@ -18,3 +19,11 @@ def save_alert( db : Session, alert_model: AlertModel):
     except Exception: 
         db.rollback()
         raise
+
+def has_recent_alert(db : Session, alert_type : str, source_ip : str):
+    start_time = datetime.utcnow() - timedelta(minutes = ALERT_COOLDOWN_MINUTES)
+    recent_alert = db.query(AlertTable).filter(AlertTable.alert_type == alert_type).filter(AlertTable.source_ip == source_ip).filter(AlertTable.created_at >= start_time).count()
+    if recent_alert:
+        return True
+    else:
+        return False

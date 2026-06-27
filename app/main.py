@@ -10,7 +10,7 @@ from generator.attack_runner import (
 
 
 def main():
-    attack_type = "CREDENTIAL_STUFFING"
+    attack_type = "BRUTE_FORCE"
     Base.metadata.create_all(bind=engine)
 
     db = SessionLocal()
