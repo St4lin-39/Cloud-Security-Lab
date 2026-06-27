@@ -17,7 +17,6 @@ def run_detection_engine(db : Session, event):
     )
     credential_stuffing = detect_credential_stuffing(
         db = db,
-        username = event.username,
         source_ip = event.ip_address
     )
     if brute_force:

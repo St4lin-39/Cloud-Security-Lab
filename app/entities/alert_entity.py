@@ -5,7 +5,7 @@ class AlertTable(Base):
     __tablename__ = "alerts"
 
     id = Column(Integer, primary_key = True, index= True)
-    username = Column(String, nullable = False)
+    username = Column(String, nullable = True)
     source_ip = Column(String, nullable = False)
     alert_type = Column(String, nullable = False)
     attempts_volume = Column(Integer, nullable = False)
