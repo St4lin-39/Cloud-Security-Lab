@@ -10,13 +10,13 @@ from generator.attack_runner import (
 
 
 def main():
-    attack_type = "BRUTE_FORCE"
+    scenario = "CORRELATION"
     Base.metadata.create_all(bind=engine)
 
     db = SessionLocal()
 
     try:
-        if attack_type == "BRUTE_FORCE":
+        if scenario == "BRUTE_FORCE":
             events, alerts = run_brute_force_attack(
                 db=db,
                 username="Luis",
@@ -24,7 +24,7 @@ def main():
                 attempts=6
             )
 
-        elif attack_type == "RESOURCE_ENUMERATION":
+        elif scenario == "RESOURCE_ENUMERATION":
             resources = [
                 "/login",
                 "/register",
@@ -43,7 +43,7 @@ def main():
                 ip_address="192.168.100.1",
                 resources= resources
             )
-        elif attack_type == "CREDENTIAL_STUFFING":
+        elif scenario == "CREDENTIAL_STUFFING":
              usernames = [
                 "Luis",
                 "Carlos",
@@ -57,6 +57,57 @@ def main():
                 username= usernames,
                 ip_address="192.168.1.100"
             )
+        elif scenario == "CORRELATION":
+
+            events = []
+            alerts = []
+
+            brute_events, brute_alerts = run_brute_force_attack(
+                db=db,
+                username="Luis",
+                ip_address="192.168.1.100",
+                attempts=6
+            )
+
+            events.extend(brute_events)
+            alerts.extend(brute_alerts)
+
+            resources = [
+                "/login",
+                "/dashboard",
+                "/users",
+                "/admin",
+                "/config",
+                "/metrics"
+            ]
+
+            resource_events, resource_alerts = run_resource_enumeration_attack(
+                db=db,
+                username="Luis",
+                ip_address="192.168.1.100",
+                resources=resources
+            )
+
+            events.extend(resource_events)
+            alerts.extend(resource_alerts)
+
+            usernames = [
+                "Luis",
+                "Carlos",
+                "Ana",
+                "Pedro",
+                "Maria"
+            ]
+
+            credential_events, credential_alerts = run_credential_stuffing_attack(
+                db=db,
+                username=usernames,
+                ip_address="192.168.1.100"
+            )
+
+            events.extend(credential_events)
+            alerts.extend(credential_alerts)
+
         else:
             raise ValueError("Tipo de ataque no soportado")
 
