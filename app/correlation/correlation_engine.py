@@ -20,7 +20,7 @@ def correlate_alerts(db : Session, source_ip: str):
     } 
     if required_alerts.issubset(alert_types):
         return AlertModel(
-            username = "MULTIPLE_USERS",
+            username = None,
             source_ip = source_ip,
             alert_type = "MULTI_STAGE_ATTACK",
             attempts_volume = len(alerts),

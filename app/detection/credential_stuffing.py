@@ -10,7 +10,7 @@ def detect_credential_stuffing(db : Session, source_ip : str):
     if username_count >= CREDENTIAL_STUFFING_THRESHOLD:
         return AlertModel(
             alert_type = "CREDENTIAL_STUFFING",
-            username = "MULTIPLE_USERS",    
+            username = None,    
             source_ip = source_ip,
             attempts_volume = username_count,
             created_at = datetime.utcnow()
