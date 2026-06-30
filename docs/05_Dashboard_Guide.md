@@ -4,23 +4,23 @@
 
 ## 1. Introduction
 
-Cloud Security Lab incorpora un conjunto de dashboards desarrollados en Power BI con el objetivo de transformar eventos y alertas en información útil para el análisis de seguridad.
+Cloud Security Lab includes a collection of dashboards developed in Power BI to transform security events and alerts into meaningful information for security analysis.
 
-Cada página del dashboard fue diseñada para responder preguntas específicas que normalmente realizaría un analista durante una investigación.
+Each dashboard page was designed to answer specific questions that a security analyst would typically ask during an investigation.
 
-En conjunto, estas páginas permiten comprender el comportamiento general del sistema, identificar patrones sospechosos y analizar incidentes de forma estructurada.
+Together, these pages provide a comprehensive understanding of the system's behavior, help identify suspicious patterns, and support structured incident analysis.
 
 ---
 
 # 2. Dashboard Philosophy
 
-Los dashboards siguen una filosofía de análisis progresivo.
+The dashboards follow a progressive analysis approach.
 
-En lugar de mostrar toda la información simultáneamente, cada página responde un conjunto específico de preguntas.
+Instead of presenting all information simultaneously, each page is designed to answer a specific set of analytical questions.
 
-El flujo recomendado de análisis es el siguiente:
+The recommended analysis workflow is as follows:
 
-```text
+```text id="yqotng"
 Executive Overview
 
 ↓
@@ -40,7 +40,7 @@ Resource Analysis
 Incident Investigation
 ```
 
-Este enfoque permite pasar desde una visión general del entorno hasta el análisis detallado de un incidente concreto.
+This approach allows the analyst to move from a high-level overview of the environment to the detailed investigation of a specific incident.
 
 ---
 
@@ -48,14 +48,14 @@ Este enfoque permite pasar desde una visión general del entorno hasta el análi
 
 ## Objective
 
-Proporcionar una visión general del estado actual del sistema.
+Provide a high-level overview of the current state of the system.
 
-Esta página responde preguntas como:
+This page answers questions such as:
 
-* ¿Cuántos eventos se han generado?
-* ¿Cuántas alertas existen?
-* ¿Qué tipos de alertas predominan?
-* ¿Qué tipos de eventos ocurren con mayor frecuencia?
+* How many events have been generated?
+* How many alerts have been generated?
+* Which alert types are the most common?
+* Which event types occur most frequently?
 
 ### KPIs
 
@@ -66,10 +66,10 @@ Esta página responde preguntas como:
 
 ### Visualizations
 
-* Alertas por tipo.
-* Eventos por tipo.
+* Alerts by type.
+* Events by type.
 
-Esta página representa el punto de entrada para cualquier proceso de análisis.
+This page serves as the starting point for any security analysis.
 
 ---
 
@@ -77,21 +77,21 @@ Esta página representa el punto de entrada para cualquier proceso de análisis.
 
 ## Objective
 
-Identificar las direcciones IP con mayor actividad dentro del sistema.
+Identify the IP addresses with the highest level of activity within the system.
 
-Esta página responde preguntas como:
+This page answers questions such as:
 
-* ¿Qué IP genera más eventos?
-* ¿Qué IP concentra la mayor cantidad de alertas?
-* ¿Existe una dirección IP especialmente activa?
+* Which IP address generates the most events?
+* Which IP address generates the highest number of alerts?
+* Is there an unusually active IP address?
 
 ### Visualizations
 
-* Eventos por dirección IP.
-* Alertas por dirección IP.
-* Tabla resumen de direcciones IP.
+* Events by IP address.
+* Alerts by IP address.
+* IP address summary table.
 
-Esta vista facilita la identificación de posibles orígenes de ataques.
+This view helps identify potential sources of attacks.
 
 ---
 
@@ -99,21 +99,21 @@ Esta vista facilita la identificación de posibles orígenes de ataques.
 
 ## Objective
 
-Analizar el comportamiento de los usuarios registrados en los eventos.
+Analyze the behavior of users recorded in the generated events.
 
-Esta página responde preguntas como:
+This page answers questions such as:
 
-* ¿Qué usuarios generan mayor actividad?
-* ¿Qué usuarios presentan mayor cantidad de intentos fallidos?
-* ¿Qué usuarios aparecen asociados a alertas?
+* Which users generate the highest level of activity?
+* Which users have the highest number of failed authentication attempts?
+* Which users are associated with generated alerts?
 
 ### Visualizations
 
-* Eventos por usuario.
-* Intentos fallidos por usuario.
-* Tabla de usuarios.
+* Events by user.
+* Failed authentication attempts by user.
+* User summary table.
 
-Esta información permite identificar cuentas potencialmente comprometidas o utilizadas durante simulaciones de ataque.
+This information helps identify potentially compromised accounts or accounts involved in attack simulations.
 
 ---
 
@@ -121,22 +121,22 @@ Esta información permite identificar cuentas potencialmente comprometidas o uti
 
 ## Objective
 
-Analizar los recursos accedidos por los usuarios durante las simulaciones.
+Analyze the resources accessed by users during attack simulations.
 
-Esta página responde preguntas como:
+This page answers questions such as:
 
-* ¿Qué recursos reciben más accesos?
-* ¿Qué recursos participan con mayor frecuencia en eventos sospechosos?
-* ¿Existe un patrón de reconocimiento sobre determinados recursos?
+* Which resources receive the highest number of access attempts?
+* Which resources are most frequently involved in suspicious events?
+* Is there evidence of reconnaissance activity targeting specific resources?
 
 ### Visualizations
 
-* Recursos más accedidos.
-* Eventos por recurso.
-* Recursos clasificados por tipo de evento.
-* Tabla de recursos.
+* Most accessed resources.
+* Events by resource.
+* Resources categorized by event type.
+* Resource summary table.
 
-Esta vista resulta especialmente útil para analizar ataques de reconocimiento y enumeración de recursos.
+This view is particularly useful for analyzing reconnaissance and resource enumeration attacks.
 
 ---
 
@@ -144,64 +144,64 @@ Esta vista resulta especialmente útil para analizar ataques de reconocimiento y
 
 ## Objective
 
-Proporcionar una vista orientada a la investigación de incidentes.
+Provide a dedicated view for incident investigation.
 
-Esta página permite revisar cronológicamente los eventos y alertas generados durante una simulación.
+This page allows analysts to review the events and alerts generated during a simulation in chronological order.
 
-Responde preguntas como:
+It answers questions such as:
 
-* ¿Qué ocurrió primero?
-* ¿Qué alertas fueron generadas?
-* ¿Qué dirección IP estuvo involucrada?
-* ¿Qué usuarios participaron?
-* ¿Cuál fue la secuencia del incidente?
+* What happened first?
+* Which alerts were generated?
+* Which IP address was involved?
+* Which users participated?
+* What was the sequence of the incident?
 
 ### Visualizations
 
-* Tabla cronológica de eventos.
-* Tabla cronológica de alertas.
-* Indicadores generales del incidente.
-* Segmentadores para filtrar por IP o usuario.
+* Chronological event table.
+* Chronological alert table.
+* Incident summary indicators.
+* Slicers for filtering by IP address or user.
 
-Esta página representa el nivel más detallado del proceso de análisis.
+This page represents the most detailed level of the analysis process.
 
 ---
 
 # 8. Analytical Workflow
 
-El dashboard fue diseñado para ser utilizado siguiendo el siguiente flujo de trabajo:
+The dashboard was designed to be used following the workflow below:
 
-1. Revisar la actividad general en Executive Overview.
-2. Identificar direcciones IP relevantes mediante IP Analysis.
-3. Analizar los usuarios involucrados en User Analysis.
-4. Revisar los recursos afectados en Resource Analysis.
-5. Reconstruir el incidente utilizando Incident Investigation.
+1. Review the overall system activity in the Executive Overview.
+2. Identify relevant IP addresses using the IP Analysis page.
+3. Analyze the users involved through the User Analysis page.
+4. Review the affected resources using the Resource Analysis page.
+5. Reconstruct the incident through the Incident Investigation page.
 
-Este flujo refleja una metodología simplificada de investigación utilizada en centros de operaciones de seguridad (SOC).
+This workflow reflects a simplified investigation methodology commonly used in Security Operations Centers (SOCs).
 
 ---
 
 # 9. Current Scope
 
-Los dashboards actuales representan el estado de la versión 1.0.
+The current dashboards represent the capabilities available in version 1.0.
 
-Su objetivo principal consiste en facilitar la comprensión de los eventos generados por las simulaciones implementadas en el laboratorio.
+Their primary objective is to facilitate the understanding of the events generated during the attack simulations implemented in the laboratory.
 
-No pretenden sustituir las capacidades de plataformas SIEM comerciales, sino servir como base para futuras ampliaciones.
+They are not intended to replace the capabilities of commercial SIEM platforms, but rather to provide a foundation for future enhancements.
 
 ---
 
 # 10. Future Improvements
 
-Las próximas versiones incorporarán nuevas capacidades de visualización, entre ellas:
+Future versions will incorporate additional visualization capabilities, including:
 
-* Mapas geográficos.
-* Tendencias temporales avanzadas.
-* Riesgo por incidente.
-* Severidad de alertas.
+* Geographic maps.
+* Advanced time-series analysis.
+* Incident risk assessment.
+* Alert severity visualization.
 * MITRE ATT&CK Mapping.
-* Dashboards de Threat Hunting.
-* Dashboards ejecutivos.
-* Métricas de rendimiento del Detection Engine.
+* Threat Hunting dashboards.
+* Executive dashboards.
+* Detection Engine performance metrics.
 
-Estas mejoras permitirán incrementar significativamente la capacidad analítica del sistema.
+These enhancements will significantly increase the analytical capabilities of the platform.

@@ -1,138 +1,83 @@
 # Cloud Security Lab
 
-## Project Overview
+# Project Overview
 
-## 1. Introduction
+## Introduction
 
-Cloud Security Lab es una plataforma desarrollada para simular, detectar y analizar eventos de seguridad en entornos empresariales mediante un motor de detección basado en reglas y un sistema de visualización construido con Power BI.
+Cloud Security Lab is a modular cybersecurity laboratory designed to simulate, detect, correlate, and analyze security events in a controlled environment.
 
-El proyecto fue diseñado con un enfoque modular para representar el flujo básico de funcionamiento de un SIEM (Security Information and Event Management), permitiendo generar eventos, ejecutar reglas de detección, correlacionar alertas y visualizar los resultados a través de dashboards interactivos.
+The project was created to provide a practical understanding of how modern Security Information and Event Management (SIEM) platforms process security telemetry, generate alerts, correlate multiple attack stages, and transform raw security data into actionable insights through Business Intelligence.
 
-Aunque actualmente se trata de un laboratorio educativo, la arquitectura fue diseñada para evolucionar progresivamente hacia una plataforma más cercana a un entorno de producción, incorporando nuevas capacidades de detección, correlación, análisis de comportamiento y respuesta automática.
+Unlike commercial SIEM solutions, Cloud Security Lab focuses on transparency and education. Every component has been developed from scratch to demonstrate how security events flow through the detection pipeline, allowing each architectural decision to be analyzed, understood, and extended.
 
----
-
-# 2. Motivation
-
-Los sistemas modernos generan millones de eventos diariamente provenientes de servidores, aplicaciones, dispositivos de red y servicios en la nube.
-
-Analizar manualmente esta cantidad de información resulta inviable, por lo que las organizaciones utilizan plataformas SIEM capaces de transformar eventos en alertas accionables para los analistas de seguridad.
-
-Cloud Security Lab nace con el objetivo de comprender y construir los componentes principales de este tipo de plataformas, implementándolos desde cero para entender su funcionamiento interno en lugar de depender únicamente de herramientas comerciales.
+The platform follows a modular architecture that separates event generation, threat detection, alert management, correlation, persistence, and visualization into independent components. This design simplifies maintenance while providing a scalable foundation for future capabilities.
 
 ---
 
-# 3. Objectives
+# Project Vision
 
-## General Objective
+The long-term vision of Cloud Security Lab is to evolve from an educational cybersecurity laboratory into a feature-rich security monitoring platform that progressively incorporates capabilities commonly found in enterprise-grade SIEM solutions.
 
-Diseñar e implementar una plataforma modular capaz de simular eventos de seguridad, detectar patrones de ataque, correlacionar alertas y presentar la información mediante dashboards interactivos.
+Rather than reproducing the behavior of a specific commercial product, the objective is to understand and implement the core concepts behind modern security monitoring systems, including event collection, rule-based detection, alert correlation, behavioral analysis, threat hunting, cloud monitoring, and automated incident response.
 
-## Specific Objectives
-
-* Simular diferentes escenarios de ataque mediante un generador de eventos.
-* Implementar un motor de detección basado en reglas configurables.
-* Reducir ruido mediante mecanismos de supresión de alertas.
-* Correlacionar múltiples alertas para identificar ataques de mayor complejidad.
-* Almacenar eventos y alertas en PostgreSQL.
-* Visualizar la información mediante Power BI.
-* Diseñar una arquitectura preparada para futuras capacidades de Threat Hunting, Machine Learning y SOAR.
+Each version of the project introduces new components while preserving the modular architecture established in the initial release.
 
 ---
 
-# 4. Current Features (Version 1.0)
+# Objectives
 
-La versión 1.0 implementa las siguientes funcionalidades:
+Cloud Security Lab has been developed around the following technical objectives:
 
-* Event Generator
-* Attack Runner
-* Detection Engine
-* Brute Force Detection
-* Resource Enumeration Detection
-* Credential Stuffing Detection
-* Alert Suppression
-* Correlation Engine
-* Multi-Stage Attack Detection
-* PostgreSQL como almacenamiento principal
-* SQLAlchemy como ORM
-* Dashboards analíticos desarrollados en Power BI
+* Understand the internal architecture of modern SIEM platforms.
+* Implement a modular event processing pipeline.
+* Simulate realistic cybersecurity attack scenarios.
+* Detect malicious behavior using configurable rule-based detection.
+* Reduce alert fatigue through alert suppression mechanisms.
+* Correlate multiple security alerts into higher-level attack scenarios.
+* Store security telemetry for historical analysis.
+* Build interactive dashboards for incident investigation using Power BI.
+* Design an architecture prepared for future integration with advanced detection techniques such as Machine Learning, User and Entity Behavior Analytics (UEBA), and Security Orchestration, Automation and Response (SOAR).
 
 ---
 
-# 5. Technologies
+# Project Scope
 
-## Backend
+The current version focuses on demonstrating the complete lifecycle of security event processing.
 
-* Python
-* SQLAlchemy
-* PostgreSQL
+The implemented workflow consists of the following stages:
 
-## Data Analysis
+```text
+Attack Simulation
 
-* Microsoft Power BI
+↓
 
-## Development Tools
+Event Generation
 
-* Git
-* GitHub
+↓
 
----
+Event Storage
 
-# 6. Current Architecture
+↓
 
-La arquitectura del proyecto está dividida en componentes independientes con responsabilidades claramente definidas.
+Threat Detection
 
-Flujo general:
+↓
 
-1. El Attack Runner ejecuta una simulación.
-2. El Event Generator produce eventos.
-3. Los eventos son almacenados en PostgreSQL.
-4. El Detection Engine evalúa cada evento.
-5. Las alertas pasan por el proceso de supresión.
-6. El Correlation Engine analiza ataques de múltiples etapas.
-7. Las alertas finales son almacenadas.
-8. Power BI consume la información para su análisis.
+Alert Suppression
 
----
+↓
 
-# 7. Current Project Status
+Alert Correlation
 
-Versión actual:
+↓
 
-**Cloud Security Lab v1.0**
+Alert Storage
 
-Estado:
+↓
 
-* Backend funcional.
-* Motor de detección operativo.
-* Correlación de alertas implementada.
-* Dashboard analítico en Power BI.
-* Arquitectura preparada para futuras ampliaciones.
+Business Intelligence Dashboard
+```
 
----
+Each stage operates independently while contributing to the overall processing pipeline, allowing individual components to evolve without affecting the rest of the system.
 
-# 8. Future Evolution
-
-Las siguientes versiones incorporarán nuevas capacidades, entre ellas:
-
-* Nuevas reglas de detección.
-* Integración con MITRE ATT&CK.
-* Threat Hunting.
-* User and Entity Behavior Analytics (UEBA).
-* Machine Learning para detección de anomalías.
-* Automatización mediante SOAR.
-* Integración con entornos Cloud.
-* Integración con Windows Event Logs.
-* Integración con Syslog y dispositivos de red.
-
----
-
-# 9. Project Philosophy
-
-Cloud Security Lab no busca únicamente generar alertas.
-
-Su objetivo principal es representar el ciclo completo de análisis de eventos de seguridad:
-
-**Generación de eventos → Detección → Supresión → Correlación → Visualización → Investigación**
-
-Esta filosofía permitirá que el proyecto evolucione progresivamente hacia una plataforma de análisis de seguridad mucho más cercana a las soluciones utilizadas actualmente en la industria.
+This separation of responsibilities represents one of the fundamental architectural principles of the project.

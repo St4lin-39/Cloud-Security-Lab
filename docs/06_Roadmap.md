@@ -4,11 +4,11 @@
 
 ## 1. Vision
 
-Cloud Security Lab nació como un laboratorio para comprender el funcionamiento interno de plataformas SIEM mediante el desarrollo de cada uno de sus componentes desde cero.
+Cloud Security Lab was created as a laboratory to understand the internal operation of SIEM platforms by developing each of their core components from scratch.
 
-La visión del proyecto consiste en evolucionar progresivamente hacia una plataforma de monitoreo y análisis de seguridad con capacidades cada vez más cercanas a las soluciones utilizadas en entornos empresariales.
+The project's vision is to progressively evolve into a security monitoring and analysis platform with capabilities increasingly comparable to those found in enterprise security solutions.
 
-Cada versión incorpora nuevas funcionalidades manteniendo la arquitectura modular implementada desde la versión inicial.
+Each new version introduces additional functionality while preserving the modular architecture established in the initial release.
 
 ---
 
@@ -16,7 +16,7 @@ Cada versión incorpora nuevas funcionalidades manteniendo la arquitectura modul
 
 ## Current Release
 
-La primera versión establece los componentes fundamentales del sistema.
+The first version establishes the fundamental components of the system.
 
 ### Features
 
@@ -32,7 +32,7 @@ La primera versión establece los componentes fundamentales del sistema.
 * PostgreSQL
 * Power BI Dashboard
 
-Estado:
+Status:
 
 **Completed**
 
@@ -42,11 +42,11 @@ Estado:
 
 ## Advanced Detection
 
-Objetivo principal:
+Primary objective:
 
-Incrementar las capacidades del Detection Engine.
+Enhance the capabilities of the Detection Engine.
 
-Funcionalidades previstas:
+Planned features:
 
 * Password Spraying Detection
 * Impossible Travel Detection
@@ -62,11 +62,11 @@ Funcionalidades previstas:
 
 ## Threat Hunting Platform
 
-Objetivo principal:
+Primary objective:
 
-Convertir el sistema en una plataforma de análisis más cercana a un SIEM empresarial.
+Transform the system into an analysis platform that more closely resembles an enterprise SIEM solution.
 
-Funcionalidades previstas:
+Planned features:
 
 * MITRE ATT&CK Mapping
 * IOC Detection
@@ -81,11 +81,11 @@ Funcionalidades previstas:
 
 ## Cloud Security
 
-Objetivo principal:
+Primary objective:
 
-Extender el laboratorio hacia entornos híbridos.
+Extend the laboratory to hybrid and cloud environments.
 
-Funcionalidades previstas:
+Planned features:
 
 * AWS CloudTrail
 * Azure Activity Logs
@@ -102,11 +102,11 @@ Funcionalidades previstas:
 
 ## Intelligent Detection
 
-Objetivo principal:
+Primary objective:
 
-Incorporar modelos de análisis basados en comportamiento.
+Incorporate behavior-based analysis models.
 
-Funcionalidades previstas:
+Planned features:
 
 * Machine Learning
 * Anomaly Detection
@@ -120,11 +120,11 @@ Funcionalidades previstas:
 
 ## SOAR
 
-Objetivo principal:
+Primary objective:
 
-Incorporar capacidades automáticas de respuesta.
+Incorporate automated incident response capabilities.
 
-Funcionalidades previstas:
+Planned features:
 
 * Automatic Incident Response
 * IP Blocking
@@ -137,4 +137,4 @@ Funcionalidades previstas:
 
 # Long-Term Goal
 
-El objetivo final consiste en transformar Cloud Security Lab en una plataforma educativa y técnica capaz de demostrar el funcionamiento interno de un SIEM moderno, manteniendo una arquitectura escalable, modular y preparada para futuras investigaciones en ciberseguridad.
+The ultimate goal is to transform Cloud Security Lab into an educational and technical platform capable of demonstrating the internal operation of a modern SIEM while maintaining a scalable, modular architecture prepared for future cybersecurity research.
