@@ -96,15 +96,15 @@ Development
 Cloud-Security-Lab/
 
 ├── app/
-├──config/
-├──database/
-├──detection/
-├──generator/
-├──models/
-├──repositories/
-├──services/
-├──simulations/
-├──main.py
+├── config/
+├── database/
+├── detection/
+├── generator/
+├── models/
+├── repositories/
+├── services/
+├── simulations/
+├── main.py
 ├── docs/
 ├── powerbi/
 ├── diagrams/          (Future)
