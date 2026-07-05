@@ -3,18 +3,17 @@ from sqlalchemy.orm import Session
 from repositories.event_repository import count_failed_logins_by_username
 from datetime import datetime 
 from config.detection_rules import BRUTE_FORCE_THRESHOLD
+from models.event_model import EventModel
 
-def detect_brute_force(db: Session, username : str, source_ip : str):
-    failed_attempts = count_failed_logins_by_username(db, username)
-    print(f"Usuario = {username} Intentos={failed_attempts}")
+def detect_brute_force(db: Session, event : EventModel):
+    failed_attempts = count_failed_logins_by_username(db, event.username)
+    print(f"Usuario = {event.username} Intentos={failed_attempts}")
     if failed_attempts >= BRUTE_FORCE_THRESHOLD:
         return AlertModel(
             alert_type = "BRUTE_FORCE_ATTEMPT",
-            username = username,
-            source_ip = source_ip,
+            username = event.username,
+            source_ip = event.ip_address,
             attempts_volume = failed_attempts,
             created_at = datetime.utcnow()
         )
-    
-    else:
-        return None
+    return None
