@@ -9,4 +9,5 @@ class EventTable(Base):
     ip_address = Column(String, nullable = False)
     event_type = Column(String, nullable = False)
     resource = Column(String, nullable = False)
+    password_attempt = Column(String, nullable = True)
     event_timestamp= Column(DateTime, nullable= False)

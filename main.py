@@ -5,9 +5,9 @@ from database.connection import (
 )
 
 from generator.attack_runner import (
-    run_brute_force_attack, run_resource_enumeration_attack, run_credential_stuffing_attack
+    run_brute_force_attack, run_resource_enumeration_attack, run_credential_stuffing_attack, run_password_spraying_attack
 )
-
+from generator.simulation_data import get_password_spraying_password
 
 def main():
     scenario = "CORRELATION"
@@ -54,8 +54,23 @@ def main():
 
              events, alerts = run_credential_stuffing_attack(
                 db=db,
-                username= usernames,
+                usernames = usernames,
                 ip_address="192.168.1.100"
+            )
+        elif scenario == "PASSWORD_SPRAYING":
+            usernames = [
+                "Luis",
+                "Carlos",
+                "Ana",
+                "Pedro",
+                "Maria"
+            ]
+            spraying_password = get_password_spraying_password()
+            events, alerts = run_password_spraying_attack(
+                db = db,
+                usernames = usernames,
+                ip_address = "192.168.1.100",
+                password_attempt= spraying_password
             )
         elif scenario == "CORRELATION":
 
@@ -101,13 +116,14 @@ def main():
 
             credential_events, credential_alerts = run_credential_stuffing_attack(
                 db=db,
-                username=usernames,
+                usernames=usernames,
                 ip_address="192.168.1.100"
             )
 
             events.extend(credential_events)
             alerts.extend(credential_alerts)
 
+            
         else:
             raise ValueError("Tipo de ataque no soportado")
 

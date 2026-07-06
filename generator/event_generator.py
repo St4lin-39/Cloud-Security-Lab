@@ -6,12 +6,14 @@ def generate_event(db,
                    username:str,
                    ip_address:str,
                    event_type: str,
-                   resource:str):
+                   resource:str,
+                   password_attempt: str):
     event_model = EventModel(
         username = username,
         ip_address = ip_address,
         event_type = event_type,
         resource = resource,
+        password_attempt = password_attempt,
         event_timestamp = datetime.utcnow()
     )
 

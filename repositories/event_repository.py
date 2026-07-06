@@ -5,6 +5,8 @@ from datetime import datetime, timedelta
 from config.detection_rules import BRUTE_FORCE_INTERVAL_MINUTES
 from config.detection_rules import RESOURCE_ENUMERATION_INTERVAL_MINUTES
 from config.detection_rules import CREDENTIAL_STUFFING_INTERVAL_MINUTES
+from config.detection_rules import PASSWORD_SPRAYING_INTERVAL_MINUTES
+
 
 def save_event(db : Session, event_model: EventModel):
     try:
@@ -13,6 +15,7 @@ def save_event(db : Session, event_model: EventModel):
             ip_address = event_model.ip_address,
             event_type = event_model.event_type,
             resource = event_model.resource,
+            password_attempt = event_model.password_attempt,
             event_timestamp = event_model.event_timestamp
         )
         db.add(event)
@@ -50,3 +53,29 @@ def count_failed_logins_by_username_since(db : Session, username : str):
      db.query(EventTable).filter(EventTable.username == username).filter(EventTable.event_type == "LOGIN_FAILED").filter(EventTable.event_timestamp >= start_time).count()
      )
 
+def count_unique_users_by_password_attempt(db: Session, password_attempt: str):
+    start_time = datetime.utcnow() - timedelta(
+        minutes=PASSWORD_SPRAYING_INTERVAL_MINUTES
+    )
+
+    users = (
+        db.query(EventTable.username)
+        .filter(EventTable.password_attempt == password_attempt)
+        .filter(EventTable.event_timestamp >= start_time)
+        .distinct()
+        .all()
+    )
+
+    return [row[0] for row in users]
+
+def get_unique_passwords_by_ip(db: Session, source_ip: str):
+    start_time = datetime.utcnow() - timedelta(
+        minutes=CREDENTIAL_STUFFING_INTERVAL_MINUTES
+    )
+    return (
+        db.query(EventTable.password_attempt)
+        .filter(EventTable.ip_address == source_ip)
+        .filter(EventTable.event_timestamp >= start_time)
+        .distinct()
+        .all()
+    )

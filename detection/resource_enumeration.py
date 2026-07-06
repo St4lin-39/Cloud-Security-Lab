@@ -12,7 +12,7 @@ def detect_resource_enumeration(db: Session, event : EventModel):
         return AlertModel(
             alert_type = "RESOURCE_ENUMERATION",
             username = event.username,
-            source_ip = event.source_ip,
+            source_ip = event.ip_address,
             attempts_volume = resource_count,
             created_at = datetime.utcnow()
 
