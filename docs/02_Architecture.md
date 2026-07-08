@@ -218,6 +218,8 @@ The most relevant include:
 * Separating detection from correlation.
 * Implementing alert suppression to reduce operational noise.
 * Using Power BI exclusively as the visualization layer.
+* Detection Pipeline used as an orchestration layer between event generation and threat detection.
+* Independent detection modules registered through a Detection Registry to facilitate future extensibility.
 
 These decisions help maintain a modular architecture prepared for future expansion.
 

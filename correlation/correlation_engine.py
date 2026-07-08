@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session 
-from repositories.alert_repository import get_recent_alerts_by_ip
+from repositories.alert_repository import get_recent_alerts_by_ip, has_recent_alert
 from models.alert_model import AlertModel
 from datetime import datetime 
 
@@ -19,6 +19,14 @@ def correlate_alerts(db : Session, source_ip: str):
         "CREDENTIAL_STUFFING"
     } 
     if required_alerts.issubset(alert_types):
+        already_correlated = has_recent_alert(
+            db = db,
+            alert_type = "MULTI_STAGE_ATTACK",
+            source_ip= source_ip
+        )
+        if already_correlated:
+            return None
+        
         return AlertModel(
             username = None,
             source_ip = source_ip,
