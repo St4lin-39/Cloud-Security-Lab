@@ -24,7 +24,7 @@ def has_recent_alert(db : Session, alert_type : str, source_ip : str, username :
     start_time = datetime.utcnow() - timedelta(minutes = ALERT_COOLDOWN_MINUTES)
     query = (db.query(AlertTable).filter(AlertTable.alert_type == alert_type).filter(AlertTable.source_ip == source_ip).filter(AlertTable.created_at >= start_time))
     if username is not None:
-        query= query.filter(AlertTable.username == username)
+        query = query.filter(AlertTable.username == username)
     
     return query.first() is not None
 
