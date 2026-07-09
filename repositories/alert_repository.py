@@ -8,6 +8,10 @@ def save_alert( db : Session, alert_model: AlertModel):
         alert = AlertTable(
             alert_type = alert_model.alert_type,
             username = alert_model.username,
+            severity = alert_model.severity,
+            status = alert_model.status,
+            description = alert_model.description,
+            recommendation = alert_model.recommendation,
             source_ip = alert_model.source_ip,
             attempts_volume = alert_model.attempts_volume,
             created_at = alert_model.created_at

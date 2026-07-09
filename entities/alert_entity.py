@@ -1,4 +1,4 @@
-from sqlalchemy import String, Integer, Column, DateTime
+from sqlalchemy import String, Integer, Column, DateTime, Text
 from database.connection import Base
 
 class AlertTable(Base):
@@ -8,5 +8,9 @@ class AlertTable(Base):
     username = Column(String, nullable = True)
     source_ip = Column(String, nullable = False)
     alert_type = Column(String, nullable = False)
+    severity = Column(String, nullable = False)
+    status = Column(String, nullable = False)
+    description = Column(Text, nullable = False)
+    recommendation = Column(Text, nullable = False)
     attempts_volume = Column(Integer, nullable = False)
     created_at = Column(DateTime, nullable = False)

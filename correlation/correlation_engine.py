@@ -2,6 +2,7 @@ from sqlalchemy.orm import Session
 from repositories.alert_repository import get_recent_alerts_by_ip, has_recent_alert
 from models.alert_model import AlertModel
 from datetime import datetime 
+from config.alert_metadata import ALERT_METADATA
 
 def correlate_alerts(db : Session, source_ip: str):
     alerts = get_recent_alerts_by_ip(
@@ -9,6 +10,7 @@ def correlate_alerts(db : Session, source_ip: str):
         source_ip = source_ip
     )
     alert_types = set()
+    metadata = ALERT_METADATA["MULTI_STAGE_ATTACK"]
 
     for alert in alerts:
         alert_types.add(alert.alert_type)
@@ -31,6 +33,10 @@ def correlate_alerts(db : Session, source_ip: str):
             username = None,
             source_ip = source_ip,
             alert_type = "MULTI_STAGE_ATTACK",
+            severity = metadata["severity"],
+            status = "OPEN",
+            description = metadata["description"],
+            recommendation = metadata["recommendation"],
             attempts_volume = len(alerts),
             created_at= datetime.utcnow()
         )
