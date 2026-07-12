@@ -5,7 +5,7 @@ from datetime import datetime
 from config.detection_rules import CREDENTIAL_STUFFING_THRESHOLD
 from models.event_model import EventModel
 from repositories.alert_repository import has_recent_alert
-from config.alert_metadata import ALERT_METADATA
+from services.alert_factory import create_alert
 
 def detect_credential_stuffing(db : Session, event : EventModel):
     already_alerted = has_recent_alert(
@@ -13,20 +13,15 @@ def detect_credential_stuffing(db : Session, event : EventModel):
         alert_type = "CREDENTIAL_STUFFING",
         source_ip= event.ip_address
     )
-    metadata = ALERT_METADATA["CREDENTIAL_STUFFING"]
+
     usernames= get_unique_usernames_by_ip(db, event.ip_address)
     username_count= len(usernames)
     if (username_count >= CREDENTIAL_STUFFING_THRESHOLD and not already_alerted):
         
-        return AlertModel(
+        return create_alert(
             alert_type = "CREDENTIAL_STUFFING",
-            username = None,    
-            severity = metadata["severity"],
-            status = "OPEN",
-            description = metadata["description"],
-            recommendation = metadata["recommendation"],
-            source_ip = event.ip_address,
-            attempts_volume = username_count,
-            created_at = datetime.utcnow()
+            username = None, 
+            source_ip= event.ip_address,   
+            attempts_volume = username_count
         )
     return None
