@@ -9,9 +9,12 @@ def save_alert( db : Session, alert_model: AlertModel):
             alert_type = alert_model.alert_type,
             username = alert_model.username,
             severity = alert_model.severity,
+            confidence = alert_model.confidence,
             status = alert_model.status,
             description = alert_model.description,
             recommendation = alert_model.recommendation,
+            mitre_tactic = alert_model.mitre_tactic,
+            mitre_technique = alert_model.mitre_technique,
             source_ip = alert_model.source_ip,
             attempts_volume = alert_model.attempts_volume,
             created_at = alert_model.created_at

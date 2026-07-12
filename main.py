@@ -10,7 +10,7 @@ from generator.attack_runner import (
 from generator.simulation_data import get_password_spraying_password
 
 def main():
-    scenario = "CORRELATION"
+    scenario = "BRUTE_FORCE"
     Base.metadata.create_all(bind=engine)
 
     db = SessionLocal()

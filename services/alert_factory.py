@@ -12,9 +12,12 @@ def create_alert(
     return AlertModel(
         alert_type = alert_type,
         severity = metadata["severity"],
+        confidence = metadata["confidence"],
         status = "OPEN",
         description = metadata["description"],
         recommendation = metadata["recommendation"],
+        mitre_tactic= metadata["mitre_tactic"],
+        mitre_technique= metadata["mitre_technique"],
         username = username,
         source_ip = source_ip,
         attempts_volume = attempts_volume,
