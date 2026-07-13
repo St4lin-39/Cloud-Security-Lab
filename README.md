@@ -1,8 +1,8 @@
 # Cloud Security Lab
 
-A modular cybersecurity laboratory designed to simulate cyberattacks, detect malicious behaviors, correlate security events, and visualize security incidents through interactive dashboards.
+A modular cybersecurity laboratory designed to simulate cyberattacks, detect malicious behaviors, enrich security alerts, correlate attack patterns, and visualize security incidents through interactive dashboards.
 
-Cloud Security Lab was developed from scratch to understand how modern **Security Information and Event Management (SIEM)** platforms process, enrich, correlate, and visualize security events while maintaining a clean, scalable, and extensible software architecture.
+Cloud Security Lab was developed from scratch to understand how modern **Security Information and Event Management (SIEM)** platforms process, enrich, prioritize, correlate, and visualize security events while maintaining a clean, scalable, and extensible software architecture.
 
 Rather than replicating the complexity of enterprise SIEM solutions, this project focuses on implementing their core analytical workflow in a transparent, educational, and modular way.
 
@@ -12,7 +12,7 @@ Rather than replicating the complexity of enterprise SIEM solutions, this projec
 
 Cloud Security Lab simulates realistic attack scenarios that generate security events, which are processed through a modular Detection Engine capable of identifying malicious behaviors using rule-based detection techniques.
 
-Detected threats are enriched with contextual metadata, processed by an Alert Manager, correlated into higher-level security incidents, stored in PostgreSQL, and finally visualized through interactive Power BI dashboards.
+Once an attack is detected, alerts are enriched with contextual metadata including severity, confidence, risk score, recommendations, and MITRE ATT&CK mappings. The alerts are then processed by an Alert Manager, correlated into higher-level security incidents, stored in PostgreSQL, and finally visualized through interactive Power BI dashboards.
 
 The platform emphasizes software architecture, modularity, and cybersecurity concepts over infrastructure complexity, making it an ideal laboratory for learning and experimentation.
 
@@ -37,10 +37,18 @@ Current Version (**v2.0**)
 - Credential Stuffing Detection
 - Password Spraying Detection
 
+## Alert Enrichment
+
+- Severity Classification
+- Dynamic Confidence Scoring
+- Dynamic Risk Scoring
+- MITRE ATT&CK Mapping
+- Alert Recommendations
+- Alert Status Management
+
 ## Alert Processing
 
-- Alert Enrichment
-- Severity Classification
+- Alert Factory
 - Alert Suppression
 - Multi-Stage Attack Correlation
 
@@ -76,7 +84,7 @@ Current Version (**v2.0**)
 
 # Project Architecture
 
-Cloud Security Lab follows a sequential security event processing pipeline.
+Cloud Security Lab follows a modular security event processing pipeline.
 
 ```text
 Attack Runner
@@ -91,10 +99,16 @@ PostgreSQL (Events)
 Detection Engine
       │
       ▼
-Alert Manager
+Alert Factory
       │
       ▼
-Alert Enrichment
+Confidence Engine
+      │
+      ▼
+Risk Engine
+      │
+      ▼
+Alert Manager
       │
       ▼
 Correlation Engine
@@ -106,7 +120,7 @@ PostgreSQL (Alerts)
 Power BI
 ```
 
-Every module performs a single responsibility, promoting scalability, maintainability, and future extensibility.
+Each component performs a single responsibility, promoting scalability, maintainability, and future extensibility.
 
 A complete architectural explanation is available in:
 
@@ -219,11 +233,14 @@ The platform will:
 
 - Generate simulated attack events.
 - Execute the Detection Engine.
-- Generate enriched alerts.
+- Enrich alerts with contextual metadata.
+- Calculate Confidence Score.
+- Calculate Risk Score.
+- Suppress duplicated alerts.
 - Perform alert correlation.
-- Store all information inside PostgreSQL.
+- Store alerts in PostgreSQL.
 
-The generated data can then be explored through the included Power BI dashboards.
+The generated information can then be explored through the included Power BI dashboards.
 
 ---
 
@@ -234,17 +251,17 @@ Cloud Security Lab includes interactive dashboards designed to support security 
 Current dashboards include:
 
 - Executive Overview
-- IP Analysis
+- Network Activity
 - User Analysis
 - Resource Analysis
-- Incident Investigation
+- Attack Timeline
+- Attack Investigation
 
 Future releases will introduce:
 
 - MITRE ATT&CK Dashboard
 - Threat Hunting Dashboard
 - IOC Dashboard
-- Risk Scoring Dashboard
 
 ---
 
@@ -283,22 +300,24 @@ Completed
 Completed
 
 - Password Spraying Detection
-- Alert Enrichment
-- Severity Classification
+- Alert Factory
 - Detection Registry
 - Alert Metadata
+- Dynamic Confidence Scoring
+- Dynamic Risk Scoring
+- MITRE ATT&CK Mapping
 - Improved Modular Architecture
 
 ---
 
 ## Version 3.0
 
-In Progress
+Planned
 
-- MITRE ATT&CK Mapping
-- IOC Detection
+- Incident Classification
+- Asset Criticality
 - Threat Hunting
-- Risk Scoring
+- IOC Detection
 - Advanced Dashboards
 
 ---
@@ -344,9 +363,9 @@ SOAR
 
 ## Project Status
 
-**Core Detection Platform Completed**
+**Detection, Alert Enrichment and Correlation Platform Completed**
 
-Cloud Security Lab currently provides a complete modular platform capable of simulating multiple cyberattack scenarios, detecting malicious behavior through rule-based analytics, enriching alerts with contextual metadata, suppressing duplicate alerts, correlating multiple detections into higher-level incidents, persisting information into PostgreSQL, and visualizing security data through Power BI.
+Cloud Security Lab currently provides a modular security monitoring platform capable of simulating multiple cyberattack scenarios, detecting malicious behaviors through rule-based analytics, enriching alerts with contextual information, calculating confidence and risk scores, suppressing duplicate alerts, correlating multiple attack techniques into higher-level incidents, persisting data into PostgreSQL, and visualizing security information through Power BI.
 
 ---
 
@@ -354,15 +373,14 @@ Cloud Security Lab currently provides a complete modular platform capable of sim
 
 Future versions of Cloud Security Lab aim to progressively incorporate capabilities commonly found in enterprise security platforms, including:
 
-- MITRE ATT&CK integration
 - Threat Hunting
-- IOC detection
-- Cloud telemetry ingestion
-- Behavioral analytics
+- IOC Detection
+- Cloud Telemetry
+- Behavioral Analytics
 - Machine Learning
-- SOAR automation
+- SOAR Automation
 
-The long-term objective is to build an educational platform that closely resembles the internal architecture and analytical workflow of modern SIEM solutions while remaining fully transparent and suitable for learning.
+The long-term objective is to build an educational platform that closely resembles the internal architecture and analytical workflow of modern SIEM platforms while remaining fully transparent and suitable for learning.
 
 ---
 
