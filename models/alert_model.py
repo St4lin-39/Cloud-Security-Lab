@@ -6,6 +6,7 @@ class AlertModel(BaseModel):
     alert_type : str
     severity : str
     confidence: int
+    risk_score: int
     status : str
     description : str
     recommendation : str

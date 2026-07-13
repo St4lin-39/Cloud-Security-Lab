@@ -8,6 +8,7 @@ from services.confidence_engine import(
     calculate_password_spraying_confidence,
     calculate_resource_enumeration_confidence
 )
+from services.risk_engine import calculate_risk_score
 
 def create_alert(
         alert_type: str,
@@ -27,11 +28,19 @@ def create_alert(
         confidence = calculate_multi_stage_attack_confidence(attempts_volume)
     else:
         confidence = 50
+    
+    
     metadata = ALERT_METADATA[alert_type]
+    severity = metadata["severity"]
+    risk_score = calculate_risk_score(
+        severity,
+        confidence
+    )
     return AlertModel(
         alert_type = alert_type,
-        severity = metadata["severity"],
         confidence = confidence,
+        severity = severity,
+        risk_score = risk_score,
         status = "OPEN",
         description = metadata["description"],
         recommendation = metadata["recommendation"],
