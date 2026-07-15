@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from detection.detection_engine import run_detection_engine
 from correlation.correlation_engine import correlate_alerts
 from services.alert_manager import process_alert
-
+from services.incident_engine import process_incident
 
 def process_event(db: Session, event):
 
@@ -23,6 +23,10 @@ def process_event(db: Session, event):
         )
 
         if saved_alert:
+            process_incident(
+                db = db,
+                alert = saved_alert
+            )
             generated_alerts.append(saved_alert)
 
     correlated_alert = correlate_alerts(
@@ -38,6 +42,10 @@ def process_event(db: Session, event):
         )
 
         if saved_correlated_alert:
+            process_incident(
+                db = db,
+                alert = saved_correlated_alert
+            )
             generated_alerts.append(saved_correlated_alert)
 
     return generated_alerts
