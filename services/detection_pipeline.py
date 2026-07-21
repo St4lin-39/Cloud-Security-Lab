@@ -31,7 +31,8 @@ def process_event(db: Session, event):
 
     correlated_alert = correlate_alerts(
         db=db,
-        source_ip=event.ip_address
+        source_ip=event.ip_address,
+        resource = event.resource
     )
 
     if correlated_alert:

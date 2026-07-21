@@ -55,13 +55,14 @@ def update_existing_incident(db : Session, incident: IncidentTable, alert: Alert
     )
     if(SEVERITY_ORDER[alert.severity] > SEVERITY_ORDER[incident.severity]):
         incident.severity = alert.severity
-    incident.asset_criticality_score = max(
-        incident.asset_criticality_score,
+    if (
         alert.asset_criticality_score
-    )
-    incident.asset_criticality = ASSET_CRITICALITY[
-        incident.asset_criticality_score
-    ]
+        > incident.asset_criticality_score
+    ):
+        incident.asset_criticality = alert.asset_criticality
+        incident.asset_criticality_score = (
+            alert.asset_criticality_score
+        )
     if alert.alert_type == "MULTI_STAGE_ATTACK":
         incident.incident_type = INCIDENT_MAPPING[
             alert.alert_type

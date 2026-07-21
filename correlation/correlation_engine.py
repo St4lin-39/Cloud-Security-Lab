@@ -2,7 +2,7 @@ from sqlalchemy.orm import Session
 from repositories.alert_repository import get_recent_alerts_by_ip, has_recent_alert
 from services.alert_factory import create_alert
 
-def correlate_alerts(db : Session, source_ip: str):
+def correlate_alerts(db : Session, source_ip: str, resource: str):
     alerts = get_recent_alerts_by_ip(
         db = db,
         source_ip = source_ip
@@ -31,7 +31,8 @@ def correlate_alerts(db : Session, source_ip: str):
             username = None,
             source_ip = source_ip,
             alert_type = "MULTI_STAGE_ATTACK",
-            attempts_volume = len(alerts),
+            resource = resource,
+            attempts_volume = len(alerts)
         )
     else:
         return None

@@ -8,9 +8,12 @@ from generator.attack_runner import (
     run_brute_force_attack, run_resource_enumeration_attack, run_credential_stuffing_attack, run_password_spraying_attack
 )
 from generator.simulation_data import get_password_spraying_password
-
+from services.incident_engine import(
+    get_open_incident_by_ip
+)
+from services.incident_lifecycle import incident_transition
 def main():
-    scenario = "BRUTE_FORCE"
+    scenario = "CORRELATION"
     Base.metadata.create_all(bind=engine)
 
     db = SessionLocal()
@@ -72,6 +75,46 @@ def main():
                 ip_address = "192.168.1.100",
                 password_attempt= spraying_password
             )
+        elif scenario == "INCIDENT_LIFECYCLE":
+
+            incident = get_open_incident_by_ip(
+                db=db,
+                source_ip="192.168.1.100"
+            )
+
+            if incident is None:
+                raise ValueError(
+                    "No existe un incidente OPEN para probar el lifecycle"
+                )
+
+            print(f"Estado inicial: {incident.status}")
+
+            incident = incident_transition(
+                db=db,
+                incident=incident,
+                new_status="INVESTIGATING"
+            )
+
+            print(f"Estado actual: {incident.status}")
+
+            incident = incident_transition(
+                db=db,
+                incident=incident,
+                new_status="CONTAINED"
+            )
+
+            print(f"Estado actual: {incident.status}")
+
+            incident = incident_transition(
+                db=db,
+                incident=incident,
+                new_status="CLOSED"
+            )
+
+            print(f"Estado final: {incident.status}")
+
+            events = []
+            alerts = []
         elif scenario == "CORRELATION":
 
             events = []
