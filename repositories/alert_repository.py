@@ -11,6 +11,8 @@ def save_alert( db : Session, alert_model: AlertModel):
             severity = alert_model.severity,
             confidence = alert_model.confidence,
             risk_score = alert_model.risk_score,
+            asset_criticality = alert_model.asset_criticality,
+            asset_criticality_score = alert_model.asset_criticality_score,
             status = alert_model.status,
             description = alert_model.description,
             recommendation = alert_model.recommendation,

@@ -11,6 +11,8 @@ def save_incident(db : Session, incident_model : IncidentModel):
             priority = incident_model.priority,
             status = incident_model.status,
             risk_score = incident_model.risk_score,
+            asset_criticality = incident_model.asset_criticality,
+            asset_criticality_score = incident_model.asset_criticality_score,
             source_ip = incident_model.source_ip,
             alerts_count = incident_model.alerts_count,
             first_seen = incident_model.first_seen,

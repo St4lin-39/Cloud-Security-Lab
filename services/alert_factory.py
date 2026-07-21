@@ -9,11 +9,16 @@ from services.confidence_engine import(
     calculate_resource_enumeration_confidence
 )
 from services.risk_engine import calculate_risk_score
+from services.asset_criticality_engine import (
+    get_asset_criticality,
+    get_asset_criticality_score
+)
 
 def create_alert(
         alert_type: str,
         source_ip: str,
         attempts_volume: int,
+        resource: str,
         username: str | None = None
 ):
     if alert_type == "BRUTE_FORCE_ATTEMPT":
@@ -32,15 +37,20 @@ def create_alert(
     
     metadata = ALERT_METADATA[alert_type]
     severity = metadata["severity"]
+    asset_criticality = get_asset_criticality(resource)
+    asset_criticality_score = get_asset_criticality_score(resource)
     risk_score = calculate_risk_score(
         severity,
-        confidence
+        confidence,
+        asset_criticality_score
     )
     return AlertModel(
         alert_type = alert_type,
         confidence = confidence,
         severity = severity,
         risk_score = risk_score,
+        asset_criticality = asset_criticality,
+        asset_criticality_score= asset_criticality_score,
         status = "OPEN",
         description = metadata["description"],
         recommendation = metadata["recommendation"],

@@ -21,7 +21,8 @@ def detect_credential_stuffing(db : Session, event : EventModel):
         return create_alert(
             alert_type = "CREDENTIAL_STUFFING",
             username = None, 
-            source_ip= event.ip_address,   
+            source_ip= event.ip_address,  
+            resource = event.resource, 
             attempts_volume = username_count
         )
     return None

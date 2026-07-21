@@ -306,7 +306,7 @@ Completed
 - Dynamic Confidence Scoring
 - Dynamic Risk Scoring
 - MITRE ATT&CK Mapping
-- Improved Modular Architecture
+- Improved Modular Architecture 
 
 ---
 

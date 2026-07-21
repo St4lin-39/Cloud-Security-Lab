@@ -23,6 +23,7 @@ def detect_brute_force(db: Session, event : EventModel):
             alert_type = "BRUTE_FORCE_ATTEMPT",
             username = event.username,
             source_ip = event.ip_address,
+            resource = event.resource,
             attempts_volume= failed_attempts
         )
     return None

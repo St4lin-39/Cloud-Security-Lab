@@ -10,6 +10,8 @@ class AlertTable(Base):
     alert_type = Column(String, nullable = False)
     severity = Column(String, nullable = False)
     risk_score = Column(Integer, nullable = False)
+    asset_criticality = Column(String, nullable = False)
+    asset_criticality_score = Column(Integer, nullable = False)
     confidence = Column(Integer, nullable = False)
     status = Column(String, nullable = False)
     description = Column(Text, nullable = False)

@@ -7,6 +7,8 @@ class AlertModel(BaseModel):
     severity : str
     confidence: int
     risk_score: int
+    asset_criticality : str
+    asset_criticality_score : int
     status : str
     description : str
     recommendation : str
@@ -16,3 +18,4 @@ class AlertModel(BaseModel):
     source_ip : str
     attempts_volume : int
     created_at : datetime
+    

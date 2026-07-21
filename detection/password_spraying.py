@@ -20,6 +20,7 @@ def detect_password_spraying(db : Session, event : EventModel):
             alert_type = "PASSWORD_SPRAYING",
             username = None,
             source_ip = event.ip_address,
+            resource = event.resource,
             attempts_volume = user_count,
         )
     return None

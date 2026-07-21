@@ -10,6 +10,7 @@ from repositories.incident_repository import(
 from services.priority_engine import calculate_priority
 from config.incident_mapping import INCIDENT_MAPPING
 from entities.incident_entity import IncidentTable
+from config.asset_criticality import ASSET_CRITICALITY
 
 
 SEVERITY_ORDER = {
@@ -30,6 +31,8 @@ def create_incident(db: Session, alert : AlertModel):
         priority= priority,
         status = "OPEN",
         risk_score= alert.risk_score,
+        asset_criticality = alert.asset_criticality,
+        asset_criticality_score= alert.asset_criticality_score,
         source_ip= alert.source_ip,
         alerts_count= 1,
         first_seen = current_time,
@@ -52,6 +55,13 @@ def update_existing_incident(db : Session, incident: IncidentTable, alert: Alert
     )
     if(SEVERITY_ORDER[alert.severity] > SEVERITY_ORDER[incident.severity]):
         incident.severity = alert.severity
+    incident.asset_criticality_score = max(
+        incident.asset_criticality_score,
+        alert.asset_criticality_score
+    )
+    incident.asset_criticality = ASSET_CRITICALITY[
+        incident.asset_criticality_score
+    ]
     if alert.alert_type == "MULTI_STAGE_ATTACK":
         incident.incident_type = INCIDENT_MAPPING[
             alert.alert_type
