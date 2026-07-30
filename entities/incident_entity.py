@@ -6,6 +6,8 @@ class IncidentTable(Base):
     __tablename__ = "incidents"
 
     id = Column(Integer, primary_key= True, index= True)
+    classification = Column(String, nullable = False)
+    classification_score = Column(Integer, nullable = False)
     incident_type = Column(String, nullable = False)
     severity = Column(String, nullable = False)
     priority = Column(String, nullable = False)

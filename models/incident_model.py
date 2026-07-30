@@ -2,6 +2,8 @@ from pydantic import BaseModel
 from datetime import datetime
 class IncidentModel(BaseModel):
     incident_type : str
+    classification : str
+    classification_score : int
     severity : str
     priority : str
     status : str

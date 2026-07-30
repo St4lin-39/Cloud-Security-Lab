@@ -1,7 +1,5 @@
 from repositories.event_repository import get_unique_usernames_by_ip
-from models.alert_model import AlertModel
 from sqlalchemy.orm import Session
-from datetime import datetime
 from config.detection_rules import CREDENTIAL_STUFFING_THRESHOLD
 from models.event_model import EventModel
 from repositories.alert_repository import has_recent_alert

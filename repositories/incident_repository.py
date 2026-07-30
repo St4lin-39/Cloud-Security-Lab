@@ -1,12 +1,14 @@
 from sqlalchemy.orm import Session
 from entities.incident_entity import IncidentTable
 from models.incident_model import IncidentModel
-from datetime import datetime, timedelta
+
 
 def save_incident(db : Session, incident_model : IncidentModel):
     try:
         incident = IncidentTable(
             incident_type = incident_model.incident_type,
+            classification = incident_model.classification,
+            classification_score = incident_model.classification_score,
             severity = incident_model.severity,
             priority = incident_model.priority,
             status = incident_model.status,

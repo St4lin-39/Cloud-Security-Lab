@@ -10,7 +10,8 @@ from repositories.incident_repository import(
 from services.priority_engine import calculate_priority
 from config.incident_mapping import INCIDENT_MAPPING
 from entities.incident_entity import IncidentTable
-from config.asset_criticality import ASSET_CRITICALITY
+from config.incident_classification import CLASSIFICATION_SCORES
+from services.incident_classification import classify_incident
 
 
 SEVERITY_ORDER = {
@@ -25,8 +26,16 @@ def create_incident(db: Session, alert : AlertModel):
         alert.risk_score
     )
     current_time = datetime.utcnow()
+    classification_score = CLASSIFICATION_SCORES[alert.alert_type]
+    classification = classify_incident(
+        classification_score = incident.classification_score,
+        has_successful_login = False,
+        has_sensitive_access = False
+    )
     incident = IncidentModel(
         incident_type= incident_type,
+        classification = classification,
+        classification_score = classification_score,
         severity = alert.severity,
         priority= priority,
         status = "OPEN",
@@ -50,6 +59,9 @@ def update_existing_incident(db : Session, incident: IncidentTable, alert: Alert
         incident.risk_score,
         alert.risk_score
     )
+    incident.classification_score += CLASSIFICATION_SCORES[
+        alert.alert_type
+    ]
     incident.priority = calculate_priority(
         incident.risk_score
     )
