@@ -1,4 +1,5 @@
 from repositories.incident_repository import update_incident
+from services.incident_timeline_engine import create_timeline
 VALID_TRANSITIONS = {
     "OPEN" : ["INVESTIGATING", "CLOSED"],
     "INVESTIGATING" : ["CONTAINED", "CLOSED"],
@@ -23,7 +24,14 @@ def incident_transition(
     
     incident.status = new_status
 
-    return update_incident(
+    incident_updated =  update_incident(
         db = db,
         incident = incident
     )
+    create_timeline(
+    db=db,
+    incident_id=incident.id,
+    event_type="STATUS_CHANGED",
+    description=f"Incident status changed to {new_status}"
+    )
+    return incident_updated

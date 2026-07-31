@@ -12,7 +12,7 @@ from config.incident_mapping import INCIDENT_MAPPING
 from entities.incident_entity import IncidentTable
 from config.incident_classification import CLASSIFICATION_SCORES
 from services.incident_classification import classify_incident
-
+from services.incident_timeline_engine import create_timeline
 
 SEVERITY_ORDER = {
     "LOW" : 1,
@@ -28,7 +28,7 @@ def create_incident(db: Session, alert : AlertModel):
     current_time = datetime.utcnow()
     classification_score = CLASSIFICATION_SCORES[alert.alert_type]
     classification = classify_incident(
-        classification_score = incident.classification_score,
+        classification_score = classification_score,
         has_successful_login = False,
         has_sensitive_access = False
     )
@@ -47,10 +47,19 @@ def create_incident(db: Session, alert : AlertModel):
         first_seen = current_time,
         last_seen = current_time
     )
-    return save_incident(
+    
+    saved_incident =  save_incident(
         db = db,
         incident_model= incident
     )
+    create_timeline(
+            db = db,
+            incident_id = saved_incident.id,
+            event_type = "INCIDENT_CREATED",
+            description = "Incident created from first alert"
+        )
+    return saved_incident
+
 
 def update_existing_incident(db : Session, incident: IncidentTable, alert: AlertModel):
     incident.alerts_count += 1
@@ -62,6 +71,11 @@ def update_existing_incident(db : Session, incident: IncidentTable, alert: Alert
     incident.classification_score += CLASSIFICATION_SCORES[
         alert.alert_type
     ]
+    incident.classification = classify_incident(
+    classification_score=incident.classification_score,
+    has_successful_login=False,
+    has_sensitive_access=False
+)
     incident.priority = calculate_priority(
         incident.risk_score
     )
@@ -79,10 +93,18 @@ def update_existing_incident(db : Session, incident: IncidentTable, alert: Alert
         incident.incident_type = INCIDENT_MAPPING[
             alert.alert_type
         ]
-    return update_incident(
+    
+    incident_updated = update_incident(
         db = db,
         incident = incident
     )
+    create_timeline(
+    db=db,
+    incident_id=incident.id,
+    event_type="ALERT_ASSOCIATED",
+    description=f"Associated alert: {alert.alert_type}"
+    )
+    return incident_updated
 
 def process_incident(db: Session, alert : AlertModel):
     incident = get_open_incident_by_ip(

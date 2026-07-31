@@ -3,7 +3,7 @@ from database.connection import (
     engine,
     SessionLocal
 )
-
+from repositories.incident_timeline_repository import get_timeline_by_incident_id
 from generator.attack_runner import (
     run_brute_force_attack, run_resource_enumeration_attack, run_credential_stuffing_attack, run_password_spraying_attack
 )
@@ -166,7 +166,69 @@ def main():
             events.extend(credential_events)
             alerts.extend(credential_alerts)
 
-            
+        elif scenario == "INCIDENT_TEST":
+
+            events = []
+            alerts = []
+
+            brute_events, brute_alerts = run_brute_force_attack(
+                db=db,
+                username="Luis",
+                ip_address="192.168.1.100",
+                attempts=6
+            )
+
+            events.extend(brute_events)
+            alerts.extend(brute_alerts)
+
+            incident = get_open_incident_by_ip(
+                db=db,
+                source_ip="192.168.1.100"
+            )
+
+            if incident is None:
+                raise ValueError(
+                    "No existe un incidente OPEN para probar el lifecycle"
+                )
+
+            print("\n===== INCIDENTE =====")
+            print(f"Estado: {incident.status}")
+            print(f"Clasificación: {incident.classification}")
+            print(f"Prioridad: {incident.priority}")
+            print(f"Risk Score: {incident.risk_score}")
+            print(f"Alertas asociadas: {incident.alerts_count}")
+
+            incident = incident_transition(
+                db=db,
+                incident=incident,
+                new_status="INVESTIGATING"
+            )
+
+            incident = incident_transition(
+                db=db,
+                incident=incident,
+                new_status="CONTAINED"
+            )
+
+            incident = incident_transition(
+                db=db,
+                incident=incident,
+                new_status="CLOSED"
+            )
+
+            print("\n===== TIMELINE =====")
+
+            timeline = get_timeline_by_incident_id(
+                db=db,
+                incident_id=incident.id
+            )
+
+            for event in timeline:
+                print(
+                    f"{event.timestamp} | "
+                    f"{event.event_type} | "
+                    f"{event.description}"
+        )
         else:
             raise ValueError("Tipo de ataque no soportado")
 
