@@ -20,7 +20,9 @@ def save_alert( db : Session, alert_model: AlertModel):
             mitre_technique = alert_model.mitre_technique,
             source_ip = alert_model.source_ip,
             attempts_volume = alert_model.attempts_volume,
-            created_at = alert_model.created_at
+            created_at = alert_model.created_at,
+            incident_id = alert_model.incident_id
+            
         )
         db.add(alert)
         db.commit()
@@ -41,3 +43,31 @@ def has_recent_alert(db : Session, alert_type : str, source_ip : str, username :
 def get_recent_alerts_by_ip(db : Session, source_ip : str):
     start_time = datetime.utcnow() - timedelta(minutes = CORRELATION_INTERVAL_MINUTES)
     return( db.query(AlertTable).filter(AlertTable.source_ip == source_ip).filter(AlertTable.created_at >= start_time).all())
+
+def associate_alert_to_incident(
+    db: Session,
+    alert: AlertTable,
+    incident_id: int
+):
+    try:
+        alert.incident_id = incident_id
+
+        db.commit()
+        db.refresh(alert)
+
+        return alert
+
+    except Exception:
+        db.rollback()
+        raise
+
+def get_alerts_by_incident_id(
+    db: Session,
+    incident_id: int
+):
+    return (
+        db.query(AlertTable)
+        .filter(AlertTable.incident_id == incident_id)
+        .order_by(AlertTable.created_at.asc())
+        .all()
+    )

@@ -13,7 +13,7 @@ from services.incident_engine import(
 )
 from services.incident_lifecycle import incident_transition
 def main():
-    scenario = "CORRELATION"
+    scenario = "INCIDENT_TEST"
     Base.metadata.create_all(bind=engine)
 
     db = SessionLocal()
@@ -225,7 +225,7 @@ def main():
 
             for event in timeline:
                 print(
-                    f"{event.timestamp} | "
+                    f"{event.created_at} | "
                     f"{event.event_type} | "
                     f"{event.description}"
         )

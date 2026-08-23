@@ -1,4 +1,4 @@
-from sqlalchemy import String, Integer, Column, DateTime, Text
+from sqlalchemy import String, Integer, Column, DateTime, Text, ForeignKey
 from database.connection import Base
 
 class AlertTable(Base):
@@ -20,3 +20,4 @@ class AlertTable(Base):
     mitre_technique = Column(String, nullable = True)
     attempts_volume = Column(Integer, nullable = False)
     created_at = Column(DateTime, nullable = False)
+    incident_id = Column(Integer, ForeignKey("incidents.id"), nullable = True)
