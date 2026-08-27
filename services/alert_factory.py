@@ -19,7 +19,8 @@ def create_alert(
         source_ip: str,
         attempts_volume: int,
         resource: str,
-        username: str | None = None
+        username: str | None = None,
+        incident_id: int | None = None,
 ):
     if alert_type == "BRUTE_FORCE_ATTEMPT":
         confidence = calculate_brute_force_confidence(attempts_volume)
@@ -59,5 +60,6 @@ def create_alert(
         username = username,
         source_ip = source_ip,
         attempts_volume = attempts_volume,
-        created_at = datetime.utcnow()
+        created_at = datetime.utcnow(), 
+        incident_id= incident_id
     )

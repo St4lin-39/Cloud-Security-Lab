@@ -18,5 +18,5 @@ class AlertModel(BaseModel):
     source_ip : str
     attempts_volume : int
     created_at : datetime
-    incident_id : int
+    incident_id : Optional[int] = None
     

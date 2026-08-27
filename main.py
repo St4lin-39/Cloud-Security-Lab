@@ -13,7 +13,7 @@ from services.incident_engine import(
 )
 from services.incident_lifecycle import incident_transition
 def main():
-    scenario = "INCIDENT_TEST"
+    scenario = "CREDENTIAL_STUFFING"
     Base.metadata.create_all(bind=engine)
 
     db = SessionLocal()

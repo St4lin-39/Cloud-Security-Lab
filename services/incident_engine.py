@@ -13,6 +13,7 @@ from entities.incident_entity import IncidentTable
 from config.incident_classification import CLASSIFICATION_SCORES
 from services.incident_classification import classify_incident
 from services.incident_timeline_engine import create_timeline
+from repositories.alert_repository import associate_alert_to_incident
 
 SEVERITY_ORDER = {
     "LOW" : 1,
@@ -51,6 +52,11 @@ def create_incident(db: Session, alert : AlertModel):
     saved_incident =  save_incident(
         db = db,
         incident_model= incident
+    )
+    associate_alert_to_incident(
+        db = db,
+        alert = alert,
+        incident_id = saved_incident.id
     )
     create_timeline(
             db = db,
@@ -97,6 +103,11 @@ def update_existing_incident(db : Session, incident: IncidentTable, alert: Alert
     incident_updated = update_incident(
         db = db,
         incident = incident
+    )
+    associate_alert_to_incident(
+        db = db,
+        alert = alert,
+        incident_id = incident.id
     )
     create_timeline(
     db=db,
